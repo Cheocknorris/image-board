@@ -1,10 +1,42 @@
 <!doctype html>
 <html>
 <head>
-    <title></title>
+    <link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Slab&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+    <title>My Imageboard</title>
 </head>
 <body>
+    <div id="main">
+        <h1>{{heading}}</h1>
+        <div class="line"></div>
+        <div v-bind:class="classMainContainer">
+            <div v-bind:class="classContainer" v-if="images" v-for="i in images">
+                <img v-bind:class="classPicture" :src="i.url" alt="">
+                <p v-bind:class="classTitle">{{i.title}}</p>
+            </div>
+        </div>
+    </div>
     <script src="/js/vue.js"></script>
     <script src="/js/axios.min.js"></script>
-</body>
+    <script src="/js/script.js"></script>
+    </body>
 </html>
+
+    <!-- This is the element that View will use -->
+    <!-- <div id="main">
+        <h1 v-bind:class="className">{{heading}}</h1>
+        <h2>Hello {{ greetee }}</h2>
+        <a :href="url">click</a>
+        <ul v-if="candy">
+            <li v-for="c in candy" v-on:click="c.name = 'baci'">{{c.name}}</li>
+        </ul>
+        <input v-model="greetee">
+    </div>
+    <script src="/js/vue.js"></script>
+    <script src="/js/axios.min.js"></script>
+    <script src="/js/script.js"></script>
+</body>
+</html> -->
+
+<!-- @ is shortcut for v-on -->
+<!-- : is shortcut for v-bind -->
