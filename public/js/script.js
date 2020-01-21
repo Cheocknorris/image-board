@@ -3,7 +3,11 @@
         el: "#main",
         data: {
             heading: "IMAGE BOARD",
-            images: null,
+            images: [],
+            title: "",
+            description: "",
+            username: "",
+            file: null,
             classMainContainer: "main-container",
             classContainer: "container",
             classPicture: "picture",
@@ -24,6 +28,39 @@
                 .catch(function(err) {
                     console.log("err: ", err);
                 });
+        },
+
+        methods: {
+            handleClick: function(e) {
+                e.preventDefault();
+                console.log("this: ,", this);
+                // this lets us see what was typed in the input field
+                // we need to use formData to send a file to the server
+                var formData = new FormData();
+                formData.append("title", this.title);
+                formData.append("description", this.description);
+                formData.append("username", this.username);
+                formData.append("file", this.file);
+                // if I try to console.log formData, i'll get an empty objet
+
+                var vueInstance = this;
+
+                axios
+                    .post("/upload", formData)
+                    .then(function(resp) {
+                        console.log("resp from post/upload: ", resp);
+                        vueInstance.images.unshift(resp.data[0]);
+                    })
+                    .catch(err => {
+                        console.log("err in resp/upload: ", err);
+                    });
+            },
+
+            handleChange: function(e) {
+                console.log("haddleChange is running");
+                console.log("file", e.target.files[0]);
+                this.file = e.target.files[0];
+            }
         }
     });
 })();

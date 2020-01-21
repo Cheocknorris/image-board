@@ -3,11 +3,26 @@
 <head>
     <link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Slab&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/styles.css">
-    <title>My Imageboard</title>
+    <title>Image board</title>
 </head>
 <body>
     <div id="main">
-        <h1>{{heading}}</h1>
+
+
+<header>
+    <img id="logo" src="camera.png" alt="">
+    <h1>{{heading}}</h1>
+</header>
+
+        <form>
+            <input v-model="title" name="title" placeholder="title" type="text">
+            <input v-model="description" name="description" placeholder="description">
+            <input v-model="username" name="username" placeholder="unsername" value="text">
+            <input @change="handleChange" name="file" type="file" type="text" id="file" class="inputfile">
+            <label for="file">Choose a file</label>
+            <button @click="handleClick">submit</button>
+            <!-- handleClick is the name of the function that will run is script.js when the button is clicked -->
+        </form>
         <div class="line"></div>
         <div v-bind:class="classMainContainer">
             <div v-bind:class="classContainer" v-if="images" v-for="i in images">

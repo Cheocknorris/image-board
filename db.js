@@ -6,5 +6,16 @@ const db = spicedPg(
 );
 
 exports.getImages = function() {
-    return db.query(`SELECT url, title FROM images`).then(({ rows }) => rows);
+    return db
+        .query(`SELECT url, title FROM images ORDER BY id DESC`)
+        .then(({ rows }) => rows);
+};
+
+exports.addImages = function(url, username, title, description) {
+    return db
+        .query(
+            `INSERT INTO images (url, username, title, description) VALUES ($1, $2, $3, $4) returning *`,
+            [url, username, title, description]
+        )
+        .then(({ rows }) => rows);
 };
