@@ -1,19 +1,6 @@
-.fruit {
-    font-size: 200px;
-}
-
 header {
     display: flex;
     flex-direction: row;
-}
-
-.component {
-    background-color: grey;
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
 }
 
 #logo {
@@ -134,4 +121,23 @@ h1 {
     font-weight: bold;
     margin-top: 30px;
     font-size: 20px;
+}
+
+.component {
+    background-color: white;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.selected-pic {
+    margin: 50px;
+    height: 300px;
+    border-radius: 20px;
+    box-shadow: 0 0 2px #888888;
 }

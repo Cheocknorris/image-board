@@ -3,7 +3,7 @@
         template: "#modal",
         props: ["id"],
         data: function() {
-            return { images: null };
+            return { image: null };
         },
         mounted: function() {
             console.log("component mounted: ");
@@ -13,7 +13,8 @@
                 .get("/selected/" + this.id)
                 .then(function(results) {
                     console.log("results.data : ", results.data);
-                    // vueInstance.images = results.data;
+                    vueInstance.image = results.data[0];
+                    console.log("vueInstance.images: ", vueInstance.image);
                 })
                 .catch(function(err) {
                     console.log("err: ", err);

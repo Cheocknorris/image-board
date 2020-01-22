@@ -54,7 +54,26 @@
 
 <script type="text/x-template" id="modal">
     <div class="component">
-    <h1>We will se the selected image here</h1>
+    <div class="selected-container" v-if="image">
+        <img class="selected-pic" :src="image.url" alt="">
+    </div>
+    <div class="selected-info" v-if="image">
+        <p class="selected-title">
+            {{image.title}}
+        </p>
+        <p class="selected-title">
+            {{image.description}}
+        </p>
+        <p class="selected-upload">
+            Uploaded by {{image.username}} on {{image.created_at}}.
+        </p>
+    </div>
+    <form>
+        <input v-model="comment" name="comment" placeholder="Comment" type="text">
+        <input v-model="username" name="username" placeholder="Username">
+        <button>submit</button>
+        <!-- handleClick is the name of the function that will run is script.js when the button is clicked -->
+    </form>
     </div>
 </script>
 
