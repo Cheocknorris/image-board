@@ -20,27 +20,15 @@
 >
 </image-component>
 
-<!-- <first-component
-    v-if="selectedFruit"
-    post-title="My amazing article"
-    :id="selectedFruit"
-    @close="closeMe"
-></first-component> -->
-
-<!-- <p
-    class="fruit"
-    v-for="f in fruits"
-    @click="selectedFruit = f.id"
-    >{{f.title}}</p> -->
 
         <form>
             <input v-model="title" name="title" placeholder="title" type="text">
             <input v-model="description" name="description" placeholder="description">
-            <input v-model="username" name="username" placeholder="unsername" value="text">
+            <input v-model="username" name="username" placeholder="unsername">
             <input @change="handleChange" name="file" type="file" type="text" id="file" class="inputfile">
             <label for="file">Choose a file</label>
             <button @click="handleClick">submit</button>
-            <!-- handleClick is the name of the function that will run is script.js when the button is clicked -->
+
         </form>
         <div class="line"></div>
         <div v-bind:class="classMainContainer">
@@ -70,10 +58,17 @@
     </div>
     <form>
         <input v-model="comment" name="comment" placeholder="Comment" type="text">
-        <input v-model="username" name="username" placeholder="Username">
+        <input v-model="username" name="username" placeholder="Username" type="text">
         <button @click="handleComments">submit</button>
-        <!-- handleClick is the name of the function that will run is script.js when the button is clicked -->
     </form>
+    <div class="comments" v-if="comments">
+        <p v-for="c in comments">
+            username: {{c.username}}
+            <br>
+        comment: {{c.comment}}
+
+        </p>
+    </div>
     </div>
 </script>
 

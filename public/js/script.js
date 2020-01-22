@@ -3,7 +3,7 @@
         template: "#modal",
         props: ["id"],
         data: function() {
-            return { image: null, comment: null, username: null };
+            return { image: null, comment: null, username: null, comments: [] };
         },
         mounted: function() {
             console.log("component mounted: ");
@@ -15,6 +15,20 @@
                     console.log("results.data : ", results.data);
                     vueInstance.image = results.data[0];
                     console.log("vueInstance.images: ", vueInstance.image);
+                })
+                .catch(function(err) {
+                    console.log("err: ", err);
+                });
+
+            axios
+                .get("/comment/" + this.id)
+                .then(function(results) {
+                    console.log("comment results data: ", results.data);
+                    vueInstance.comment = results.data;
+                    console.log("vueInstance.comment :", vueInstance.comment);
+                    for (var i in results.data) {
+                        vueInstance.comments.push(results.data[i]);
+                    }
                 })
                 .catch(function(err) {
                     console.log("err: ", err);
@@ -40,7 +54,7 @@
                     })
                     .then(function(resp) {
                         console.log("resp from post/comment: ", resp);
-                        // vueInstance.images.unshift(resp.data[0]);
+                        vueInstance.comments.unshift(resp.data[0]);
                     })
                     .catch(err => {
                         console.log("err in resp/upload: ", err);
@@ -48,28 +62,6 @@
             }
         }
     });
-
-    // Vue.component("first-component", {
-    //     template: "#template",
-    //     props: ["postTitle", "id"],
-    //     data: function() {
-    //         return {
-    //             name: "Eliseo",
-    //             count: 0
-    //         };
-    //     },
-    //     mounted: function() {
-    //         console.log("component mounted: ");
-    //         console.log("my post-title: ", this.postTitle);
-    //         console.log("id: ", this.id);
-    //     },
-    //     methods: {
-    //         closeModal: function() {
-    //             console.log("sanity check click worked");
-    //             this.$emit("close", this.count);
-    //         }
-    //     }
-    // });
 
     new Vue({
         el: "#main",
@@ -157,43 +149,4 @@
     });
 })();
 
-// (function() {
-//     window.app = new Vue({
-//         el: "#main",
-//         data: {
-//             heading: "Welcome!",
-//             greetee: "kitty",
-//             className: "pretty",
-//             url: "spice.academy",
-//             candy: null
-//         },
-//         created: function() {
-//             console.log("created");
-//         },
-//         mounted: function() {
-//             console.log("mounted");
-//             var vueInstance = this;
-//             axios
-//                 .get("/candy")
-//                 .then(function(res) {
-//                     console.log(res.data);
-//                     vueInstance.candy = res.data;
-//                 })
-//                 .catch(function(err) {});
-//         },
-//         updated: function() {
-//             console.log("updated");
-//         },
-//         methods: {
-//             sayHello: function() {
-//                 console.log("Hello, " + this.greetee);
-//             },
-//             changeName: function(name) {
-//                 for (var i = 0; this.candy.length; i++)
-//                     if (this.candy[i].name == name) {
-//                         this.candy[i].name = "baci";
-//                     }
-//             }
-//         }
-//     });
-// })();
+//

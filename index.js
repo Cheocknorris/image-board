@@ -36,7 +36,7 @@ app.use(express.json());
 app.get("/images", (req, res) => {
     db.getImages()
         .then(results => {
-            console.log("db results: ", results);
+            // console.log("db results: ", results);
             res.json(results);
         })
         .catch(err => {
@@ -78,7 +78,7 @@ app.get("/selected/:id", (req, res) => {
     let id = req.params.id;
     db.getSelectedImage(id)
         .then(results => {
-            console.log("get selected results: ", results);
+            // console.log("get selected results: ", results);
             res.json(results);
         })
         .catch(err => {
@@ -94,6 +94,20 @@ app.post("/comment", (req, res) => {
     db.addComments(username, comment, imageId)
         .then(results => {
             console.log("comment results: ", results);
+            res.json(results);
+        })
+        .catch(err => {
+            console.log("err: ", err);
+        });
+});
+
+app.get("/comment/:id", (req, res) => {
+    console.log("req.params: ", req.params);
+    let id = req.params.id;
+    db.getComments(id)
+        .then(results => {
+            console.log("get selected results: ", results);
+            res.json(results);
         })
         .catch(err => {
             console.log("err: ", err);

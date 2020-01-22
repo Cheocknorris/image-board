@@ -34,3 +34,9 @@ exports.addComments = function(username, comment, imageId) {
         )
         .then(({ rows }) => rows);
 };
+
+exports.getComments = function(imageId) {
+    return db
+        .query(`SELECT * FROM comments WHERE image_id=$1`, [imageId])
+        .then(({ rows }) => rows);
+};
