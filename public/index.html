@@ -71,7 +71,7 @@
     <form>
         <input v-model="comment" name="comment" placeholder="Comment" type="text">
         <input v-model="username" name="username" placeholder="Username">
-        <button>submit</button>
+        <button @click="handleComments">submit</button>
         <!-- handleClick is the name of the function that will run is script.js when the button is clicked -->
     </form>
     </div>

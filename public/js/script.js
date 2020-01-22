@@ -3,7 +3,7 @@
         template: "#modal",
         props: ["id"],
         data: function() {
-            return { image: null };
+            return { image: null, comment: null, username: null };
         },
         mounted: function() {
             console.log("component mounted: ");
@@ -19,6 +19,33 @@
                 .catch(function(err) {
                     console.log("err: ", err);
                 });
+        },
+
+        methods: {
+            handleComments: function(e) {
+                e.preventDefault();
+                console.log("button clicked");
+                console.log("this:", this);
+                console.log("username", this.username);
+                console.log("comment:", this.comment);
+                console.log("id: ", this.id);
+
+                var vueInstance = this;
+
+                axios
+                    .post("/comment", {
+                        username: this.username,
+                        comment: this.comment,
+                        id: this.id
+                    })
+                    .then(function(resp) {
+                        console.log("resp from post/comment: ", resp);
+                        // vueInstance.images.unshift(resp.data[0]);
+                    })
+                    .catch(err => {
+                        console.log("err in resp/upload: ", err);
+                    });
+            }
         }
     });
 

@@ -86,6 +86,20 @@ app.get("/selected/:id", (req, res) => {
         });
 });
 
+app.post("/comment", (req, res) => {
+    console.log("req.body", req.body);
+    let username = req.body.username;
+    let comment = req.body.comment;
+    let imageId = req.body.id;
+    db.addComments(username, comment, imageId)
+        .then(results => {
+            console.log("comment results: ", results);
+        })
+        .catch(err => {
+            console.log("err: ", err);
+        });
+});
+
 app.listen(8080, () => console.log("Listening"));
 
 // app.get("/candy", (req, res) => {

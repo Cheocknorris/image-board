@@ -25,3 +25,12 @@ exports.getSelectedImage = function(id) {
         .query(`SELECT * FROM images WHERE id=$1`, [id])
         .then(({ rows }) => rows);
 };
+
+exports.addComments = function(username, comment, imageId) {
+    return db
+        .query(
+            `INSERT INTO comments (username, comment, image_id) VALUES ($1, $2, $3) returning *`,
+            [username, comment, imageId]
+        )
+        .then(({ rows }) => rows);
+};
