@@ -73,6 +73,19 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
     // use unshift to put the new image first in the array
 });
 
+app.get("/selected/:id", (req, res) => {
+    console.log("req.params.id:", req.params.id);
+    let id = req.params.id;
+    db.getSelectedImage(id)
+        .then(results => {
+            console.log("get selected results: ", results);
+            res.json(results);
+        })
+        .catch(err => {
+            console.log("err: ", err);
+        });
+});
+
 app.listen(8080, () => console.log("Listening"));
 
 // app.get("/candy", (req, res) => {

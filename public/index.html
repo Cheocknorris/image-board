@@ -14,6 +14,25 @@
     <h1>{{heading}}</h1>
 </header>
 
+<image-component
+    v-if="selectedImage"
+    :id="selectedImage"
+>
+</image-component>
+
+<!-- <first-component
+    v-if="selectedFruit"
+    post-title="My amazing article"
+    :id="selectedFruit"
+    @close="closeMe"
+></first-component> -->
+
+<!-- <p
+    class="fruit"
+    v-for="f in fruits"
+    @click="selectedFruit = f.id"
+    >{{f.title}}</p> -->
+
         <form>
             <input v-model="title" name="title" placeholder="title" type="text">
             <input v-model="description" name="description" placeholder="description">
@@ -26,11 +45,33 @@
         <div class="line"></div>
         <div v-bind:class="classMainContainer">
             <div v-bind:class="classContainer" v-if="images" v-for="i in images">
-                <img v-bind:class="classPicture" :src="i.url" alt="">
+                <img  @click="selectedImage=i.id" v-bind:class="classPicture" :src="i.url" alt="">
                 <p v-bind:class="classTitle">{{i.title}}</p>
             </div>
         </div>
+
     </div>
+
+<script type="text/x-template" id="modal">
+    <div class="component">
+    <h1>We will se the selected image here</h1>
+    </div>
+</script>
+
+
+
+
+<!-- <script type="text/x-template" id="template">  -->
+    <!-- all the code needs to be wraped inside one element -->
+    <!-- <div class="component">
+        <h1 @click="closeModal"> This is my first component</h1>
+        <h2>My name is {{name}}</h2>
+        <button @click="count++">Click me</button> Count: {{count}}
+
+    </div>
+
+</script> -->
+
     <script src="/js/vue.js"></script>
     <script src="/js/axios.min.js"></script>
     <script src="/js/script.js"></script>

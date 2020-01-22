@@ -1,7 +1,52 @@
 (function() {
+    Vue.component("image-component", {
+        template: "#modal",
+        props: ["id"],
+        data: function() {
+            return { images: null };
+        },
+        mounted: function() {
+            console.log("component mounted: ");
+            console.log("id: ", this.id);
+            var vueInstance = this;
+            axios
+                .get("/selected/" + this.id)
+                .then(function(results) {
+                    console.log("results.data : ", results.data);
+                    // vueInstance.images = results.data;
+                })
+                .catch(function(err) {
+                    console.log("err: ", err);
+                });
+        }
+    });
+
+    // Vue.component("first-component", {
+    //     template: "#template",
+    //     props: ["postTitle", "id"],
+    //     data: function() {
+    //         return {
+    //             name: "Eliseo",
+    //             count: 0
+    //         };
+    //     },
+    //     mounted: function() {
+    //         console.log("component mounted: ");
+    //         console.log("my post-title: ", this.postTitle);
+    //         console.log("id: ", this.id);
+    //     },
+    //     methods: {
+    //         closeModal: function() {
+    //             console.log("sanity check click worked");
+    //             this.$emit("close", this.count);
+    //         }
+    //     }
+    // });
+
     new Vue({
         el: "#main",
         data: {
+            selectedImage: null,
             heading: "IMAGE BOARD",
             images: [],
             title: "",
@@ -12,6 +57,20 @@
             classContainer: "container",
             classPicture: "picture",
             classTitle: "title"
+            // fruits: [
+            //     {
+            //         title: "🥝",
+            //         id: 1
+            //     },
+            //     {
+            //         title: "🍓",
+            //         id: 2
+            //     },
+            //     {
+            //         title: "🍋",
+            //         id: 3
+            //     }
+            // ]
         },
         created: function() {
             console.log("created");
@@ -31,6 +90,11 @@
         },
 
         methods: {
+            closeMe: function(count) {
+                console.log("I need to close the modal!!", count);
+                // here we can update the value of selectedFruit
+            },
+
             handleClick: function(e) {
                 e.preventDefault();
                 console.log("this: ,", this);
