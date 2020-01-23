@@ -3,7 +3,7 @@
         template: "#modal",
         props: ["id"],
         data: function() {
-            return { image: null, comment: null, username: null, comments: [] };
+            return { image: null, comment: "", username: null, comments: [] };
         },
         mounted: function() {
             console.log("component mounted: ");
@@ -24,18 +24,31 @@
                 .get("/comment/" + this.id)
                 .then(function(results) {
                     console.log("comment results data: ", results.data);
-                    vueInstance.comment = results.data;
+                    vueInstance.comments = results.data;
                     console.log("vueInstance.comment :", vueInstance.comment);
-                    for (var i in results.data) {
-                        vueInstance.comments.push(results.data[i]);
-                    }
+                    // for (var i in results.data) {
+                    //     vueInstance.comments.push(results.data[i]);
+                    // }
                 })
                 .catch(function(err) {
                     console.log("err: ", err);
                 });
         },
 
+        watch: {
+            id: function() {
+                // in here we want to do excatly the same as we did in mounted. We can copy the axios request
+                // but the ideal is not to repeat code
+                // another problem we need to deal with is if the user tries to go to an image that doesn't exist
+                // look ath the response from the server, and based on it if the response is a certain thing... close the module
+            }
+        },
+
         methods: {
+            closeModal: function() {
+                this.$emit("close");
+            },
+
             handleComments: function(e) {
                 e.preventDefault();
                 console.log("button clicked");
@@ -66,7 +79,7 @@
     new Vue({
         el: "#main",
         data: {
-            selectedImage: null,
+            selectedImage: location.hash.slice(1),
             heading: "IMAGE BOARD",
             images: [],
             title: "",
@@ -77,20 +90,6 @@
             classContainer: "container",
             classPicture: "picture",
             classTitle: "title"
-            // fruits: [
-            //     {
-            //         title: "🥝",
-            //         id: 1
-            //     },
-            //     {
-            //         title: "🍓",
-            //         id: 2
-            //     },
-            //     {
-            //         title: "🍋",
-            //         id: 3
-            //     }
-            // ]
         },
         created: function() {
             console.log("created");
@@ -98,6 +97,11 @@
         mounted: function() {
             console.log("mounted");
             var vueInstance = this;
+            addEventListener("hashchange", function() {
+                console.log("hash change happened");
+                vueInstance.imageId = location.hash.slice(1);
+            });
+
             axios
                 .get("/images")
                 .then(function(results) {
@@ -110,9 +114,10 @@
         },
 
         methods: {
-            closeMe: function(count) {
-                console.log("I need to close the modal!!", count);
-                // here we can update the value of selectedFruit
+            closeMe: function() {
+                this.selectedImage = null;
+                // location.hash + "";
+                history.replaceState(null, null, " ");
             },
 
             handleClick: function(e) {
@@ -138,6 +143,10 @@
                     .catch(err => {
                         console.log("err in resp/upload: ", err);
                     });
+            },
+
+            loadMore: function() {
+                console.log("more button clicked");
             },
 
             handleChange: function(e) {

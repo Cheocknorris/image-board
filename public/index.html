@@ -17,6 +17,7 @@
 <image-component
     v-if="selectedImage"
     :id="selectedImage"
+    @close="closeMe"
 >
 </image-component>
 
@@ -33,15 +34,21 @@
         <div class="line"></div>
         <div v-bind:class="classMainContainer">
             <div v-bind:class="classContainer" v-if="images" v-for="i in images">
+                <a :href='"#" + i.id'>
                 <img  @click="selectedImage=i.id" v-bind:class="classPicture" :src="i.url" alt="">
+                </a>
                 <p v-bind:class="classTitle">{{i.title}}</p>
             </div>
+            <button @click="loadMore">More</button>
         </div>
 
     </div>
 
 <script type="text/x-template" id="modal">
     <div class="component">
+        <img @click="closeModal" class="close" src="close.png" alt="">
+    <div class="left">
+
     <div class="selected-container" v-if="image">
         <img class="selected-pic" :src="image.url" alt="">
     </div>
@@ -56,11 +63,14 @@
             Uploaded by {{image.username}} on {{image.created_at}}.
         </p>
     </div>
+</div>
+<div class="right">
     <form>
         <input v-model="comment" name="comment" placeholder="Comment" type="text">
         <input v-model="username" name="username" placeholder="Username" type="text">
         <button @click="handleComments">submit</button>
     </form>
+
     <div class="comments" v-if="comments">
         <p v-for="c in comments">
             username: {{c.username}}
@@ -69,6 +79,7 @@
 
         </p>
     </div>
+</div>
     </div>
 </script>
 

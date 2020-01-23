@@ -7,7 +7,7 @@ const db = spicedPg(
 
 exports.getImages = function() {
     return db
-        .query(`SELECT * FROM images ORDER BY id DESC`)
+        .query(`SELECT * FROM images ORDER BY id DESC LIMIT 3`)
         .then(({ rows }) => rows);
 };
 
@@ -37,6 +37,8 @@ exports.addComments = function(username, comment, imageId) {
 
 exports.getComments = function(imageId) {
     return db
-        .query(`SELECT * FROM comments WHERE image_id=$1`, [imageId])
+        .query(`SELECT * FROM comments WHERE image_id=$1 ORDER BY id DESC`, [
+            imageId
+        ])
         .then(({ rows }) => rows);
 };
