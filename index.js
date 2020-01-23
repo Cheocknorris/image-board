@@ -45,21 +45,21 @@ app.get("/images", (req, res) => {
 });
 
 app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
-    console.log("file: ", req.file);
-    console.log("inputs: ", req.body);
+    // console.log("file: ", req.file);
+    // console.log("inputs: ", req.body);
     const title = req.body.title;
     const description = req.body.description;
     const username = req.body.username;
     const url = s3Url + req.file.filename;
-    console.log("title: ", title);
-    console.log("description: ", description);
-    console.log("username: ", username);
-    console.log("url", url);
+    // console.log("title: ", title);
+    // console.log("description: ", description);
+    // console.log("username: ", username);
+    // console.log("url", url);
 
     // insert a new row into databse for the image
     db.addImages(url, username, title, description)
         .then(results => {
-            console.log("upload results", results);
+            // console.log("upload results", results);
             res.json(results);
         })
         .catch(err => {
@@ -93,7 +93,7 @@ app.post("/comment", (req, res) => {
     let imageId = req.body.id;
     db.addComments(username, comment, imageId)
         .then(results => {
-            console.log("comment results: ", results);
+            // console.log("comment results: ", results);
             res.json(results);
         })
         .catch(err => {
@@ -102,11 +102,25 @@ app.post("/comment", (req, res) => {
 });
 
 app.get("/comment/:id", (req, res) => {
-    console.log("req.params: ", req.params);
+    // console.log("req.params: ", req.params);
     let id = req.params.id;
     db.getComments(id)
         .then(results => {
-            console.log("get selected results: ", results);
+            // console.log("get selected results: ", results);
+            res.json(results);
+        })
+        .catch(err => {
+            console.log("err: ", err);
+        });
+});
+
+app.get("/more/:lastId", (req, res) => {
+    console.log("req.params.lastId: ", req.params.lastId);
+    let lastId = req.params.lastId;
+
+    db.getMoreImages(lastId)
+        .then(results => {
+            console.log("results from getMoreImages ", results);
             res.json(results);
         })
         .catch(err => {

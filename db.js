@@ -42,3 +42,19 @@ exports.getComments = function(imageId) {
         ])
         .then(({ rows }) => rows);
 };
+
+exports.getMoreImages = function(lastId) {
+    return db
+        .query(
+            `SELECT *, (
+                    SELECT id FROM images
+                    ORDER BY id ASC
+                    LIMIT 1
+                    ) AS "lowestId" FROM images
+                    WHERE id < $1
+                    ORDER BY id DESC
+                    LIMIT 3`,
+            [lastId]
+        )
+        .then(({ rows }) => rows);
+};

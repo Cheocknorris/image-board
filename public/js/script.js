@@ -89,7 +89,8 @@
             classMainContainer: "main-container",
             classContainer: "container",
             classPicture: "picture",
-            classTitle: "title"
+            classTitle: "title",
+            lastId: null
         },
         created: function() {
             console.log("created");
@@ -106,7 +107,11 @@
                 .get("/images")
                 .then(function(results) {
                     console.log("results.data: ", results.data);
+                    var latestPic = results.data.length - 1;
+                    var latestPicId = results.data[latestPic].id;
+                    console.log("id of last pic:", latestPicId);
                     vueInstance.images = results.data;
+                    vueInstance.lastId = latestPicId;
                 })
                 .catch(function(err) {
                     console.log("err: ", err);
@@ -145,8 +150,29 @@
                     });
             },
 
-            loadMore: function() {
+            loadMore: function(e) {
+                e.preventDefault();
+                var vueInstance = this;
                 console.log("more button clicked");
+                console.log("vueInstance", vueInstance);
+                console.log("vueInstance.lastId: ", vueInstance.lastId);
+                // var latestPic = results.data.length - 1;
+                // var latestPicId = results.data[latestPic].id;
+                // console.log("id of last pic:", latestPicId);
+                axios
+                    .get("/more/" + this.lastId)
+                    .then(function(results) {
+                        console.log(
+                            "results.data from getMoreImages: ",
+                            results.data
+                        );
+                        for (var i in results.data) {
+                            vueInstance.images.push(results.data[i]);
+                        }
+                    })
+                    .catch(function(err) {
+                        console.log("err: ", err);
+                    });
             },
 
             handleChange: function(e) {
