@@ -159,6 +159,7 @@
                 // var latestPic = results.data.length - 1;
                 // var latestPicId = results.data[latestPic].id;
                 // console.log("id of last pic:", latestPicId);
+                // var vueInstance = this;
                 axios
                     .get("/more/" + this.lastId)
                     .then(function(results) {
@@ -166,9 +167,13 @@
                             "results.data from getMoreImages: ",
                             results.data
                         );
+                        console.log("this.lastId", this.lastId);
+                        vueInstance.lastId =
+                            results.data[results.data.length - 1].id;
                         for (var i in results.data) {
                             vueInstance.images.push(results.data[i]);
                         }
+                        console.log("vueInstance.lastId:", vueInstance.lastId);
                     })
                     .catch(function(err) {
                         console.log("err: ", err);
