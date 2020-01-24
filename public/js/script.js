@@ -167,13 +167,19 @@
                             "results.data from getMoreImages: ",
                             results.data
                         );
-                        console.log("this.lastId", this.lastId);
                         vueInstance.lastId =
                             results.data[results.data.length - 1].id;
                         for (var i in results.data) {
                             vueInstance.images.push(results.data[i]);
                         }
                         console.log("vueInstance.lastId:", vueInstance.lastId);
+                        console.log(
+                            "results.data.lowestId:",
+                            results.data[i].lowestId
+                        );
+                        if (vueInstance.lastId === results.data[i].lowestId) {
+                            vueInstance.lastId = null;
+                        }
                     })
                     .catch(function(err) {
                         console.log("err: ", err);

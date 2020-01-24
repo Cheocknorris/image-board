@@ -39,7 +39,7 @@
                 </a>
                 <p v-bind:class="classTitle">{{i.title}}</p>
             </div>
-            <button @click="loadMore">More</button>
+            <button v-if="lastId" @click="loadMore">More</button>
         </div>
 
     </div>
