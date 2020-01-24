@@ -78,7 +78,7 @@ app.get("/selected/:id", (req, res) => {
     let id = req.params.id;
     db.getSelectedImage(id)
         .then(results => {
-            // console.log("get selected results: ", results);
+            console.log("get selected results: ", results);
             res.json(results);
         })
         .catch(err => {

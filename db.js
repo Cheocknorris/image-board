@@ -7,7 +7,7 @@ const db = spicedPg(
 
 exports.getImages = function() {
     return db
-        .query(`SELECT * FROM images ORDER BY id DESC LIMIT 3`)
+        .query(`SELECT * FROM images ORDER BY id DESC LIMIT 6`)
         .then(({ rows }) => rows);
 };
 
@@ -22,7 +22,13 @@ exports.addImages = function(url, username, title, description) {
 
 exports.getSelectedImage = function(id) {
     return db
-        .query(`SELECT * FROM images WHERE id=$1`, [id])
+        .query(
+            `SELECT *,
+            (SELECT max(id) FROM images WHERE id<$1) AS "nextId",
+            (SELECT min(id) FROM images WHERE id>$1) AS "previousId"
+            FROM images WHERE id=$1`,
+            [id]
+        )
         .then(({ rows }) => rows);
 };
 
@@ -53,7 +59,7 @@ exports.getMoreImages = function(lastId) {
                     ) AS "lowestId" FROM images
                     WHERE id < $1
                     ORDER BY id DESC
-                    LIMIT 3`,
+                    LIMIT 6`,
             [lastId]
         )
         .then(({ rows }) => rows);

@@ -8,6 +8,7 @@
         mounted: function() {
             console.log("component mounted: ");
             console.log("id: ", this.id);
+            console.log("this.id:", parseInt(this.id));
             var vueInstance = this;
             axios
                 .get("/selected/" + this.id)
@@ -15,6 +16,10 @@
                     console.log("results.data : ", results.data);
                     vueInstance.image = results.data[0];
                     console.log("vueInstance.images: ", vueInstance.image);
+                    console.log("vueInstance.images: ", vueInstance.image);
+                    console.log("current id: ", vueInstance.image.id);
+                    console.log("previous id: ", vueInstance.image.previousId);
+                    console.log("next id: ", vueInstance.image.nextId);
                 })
                 .catch(function(err) {
                     console.log("err: ", err);
@@ -37,10 +42,29 @@
 
         watch: {
             id: function() {
-                // in here we want to do excatly the same as we did in mounted. We can copy the axios request
-                // but the ideal is not to repeat code
-                // another problem we need to deal with is if the user tries to go to an image that doesn't exist
-                // look ath the response from the server, and based on it if the response is a certain thing... close the module
+                var vueInstance = this;
+
+                if (isNaN(parseInt(this.id))) {
+                    this.closeModal();
+                } else {
+                    axios
+                        .get("/selected/" + this.id)
+                        .then(function(results) {
+                            console.log(
+                                "results.data when changing url: ",
+                                results.data
+                            );
+                            if (results.data.length == 0) {
+                                // this.selectedImage = null;
+                                // this.$emit("close");
+                                vueInstance.closeModal();
+                            }
+                            vueInstance.image = results.data[0];
+                        })
+                        .catch(function(err) {
+                            console.log("err: ", err);
+                        });
+                }
             }
         },
 
@@ -48,6 +72,10 @@
             closeModal: function() {
                 this.$emit("close");
             },
+
+            // previous: function() {
+            //     console.log("left arrow clicked");
+            // },
 
             handleComments: function(e) {
                 e.preventDefault();
@@ -100,7 +128,7 @@
             var vueInstance = this;
             addEventListener("hashchange", function() {
                 console.log("hash change happened");
-                vueInstance.imageId = location.hash.slice(1);
+                vueInstance.selectedImage = location.hash.slice(1);
             });
 
             axios
@@ -156,10 +184,7 @@
                 console.log("more button clicked");
                 console.log("vueInstance", vueInstance);
                 console.log("vueInstance.lastId: ", vueInstance.lastId);
-                // var latestPic = results.data.length - 1;
-                // var latestPicId = results.data[latestPic].id;
-                // console.log("id of last pic:", latestPicId);
-                // var vueInstance = this;
+
                 axios
                     .get("/more/" + this.lastId)
                     .then(function(results) {
