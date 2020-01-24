@@ -40,9 +40,6 @@
                     console.log("comment results data: ", results.data);
                     vueInstance.comments = results.data;
                     console.log("vueInstance.comment :", vueInstance.comment);
-                    // for (var i in results.data) {
-                    //     vueInstance.comments.push(results.data[i]);
-                    // }
                 })
                 .catch(function(err) {
                     console.log("err: ", err);
@@ -65,8 +62,12 @@
                             );
                             if (results.data.length == 0) {
                                 vueInstance.closeModal();
+                            } else {
+                                vueInstance.image = results.data[0];
+                                vueInstance.previousId =
+                                    results.data[0].previousId;
+                                vueInstance.nextId = results.data[0].nextId;
                             }
-                            vueInstance.image = results.data[0];
                         })
                         .catch(function(err) {
                             console.log("err: ", err);
