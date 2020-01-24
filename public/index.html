@@ -46,7 +46,9 @@
 
 <script type="text/x-template" id="modal">
     <div class="component">
+        <a :href='"#" + previousId'>
         <img class="left-arrow" src="left-arrow.png" alt="">
+    </a>
         <img @click="closeModal" class="close" src="close.png" alt="">
         <div class="left">
             <div class="selected-container" v-if="image">
@@ -79,7 +81,9 @@
             </p>
         </div>
     </div>
+    <a :href='"#" + nextId'>
     <img class="right-arrow" src="right-arrow.png" alt="">
+    </a>
 </div>
 </script>
 

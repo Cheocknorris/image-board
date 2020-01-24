@@ -3,7 +3,14 @@
         template: "#modal",
         props: ["id"],
         data: function() {
-            return { image: null, comment: "", username: null, comments: [] };
+            return {
+                image: null,
+                comment: "",
+                username: null,
+                comments: [],
+                previousId: null,
+                nextId: null
+            };
         },
         mounted: function() {
             console.log("component mounted: ");
@@ -20,6 +27,8 @@
                     console.log("current id: ", vueInstance.image.id);
                     console.log("previous id: ", vueInstance.image.previousId);
                     console.log("next id: ", vueInstance.image.nextId);
+                    vueInstance.previousId = results.data[0].previousId;
+                    vueInstance.nextId = results.data[0].nextId;
                 })
                 .catch(function(err) {
                     console.log("err: ", err);
@@ -55,8 +64,6 @@
                                 results.data
                             );
                             if (results.data.length == 0) {
-                                // this.selectedImage = null;
-                                // this.$emit("close");
                                 vueInstance.closeModal();
                             }
                             vueInstance.image = results.data[0];
@@ -75,6 +82,13 @@
 
             // previous: function() {
             //     console.log("left arrow clicked");
+            //     var vueInstance = this;
+            //     let previousId = vueInstance.image.previousId;
+            //     console.log("previous id: ", previousId);
+            // },
+            //
+            // next: function() {
+            //     console.log("right arrow clicked");
             // },
 
             handleComments: function(e) {
