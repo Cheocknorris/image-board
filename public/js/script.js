@@ -72,6 +72,19 @@
                         .catch(function(err) {
                             console.log("err: ", err);
                         });
+                    axios
+                        .get("/comment/" + this.id)
+                        .then(function(results) {
+                            console.log("comment results data: ", results.data);
+                            vueInstance.comments = results.data;
+                            console.log(
+                                "vueInstance.comment :",
+                                vueInstance.comment
+                            );
+                        })
+                        .catch(function(err) {
+                            console.log("err: ", err);
+                        });
                 }
             }
         },
