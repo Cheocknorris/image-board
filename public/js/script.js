@@ -94,17 +94,6 @@
                 this.$emit("close");
             },
 
-            // previous: function() {
-            //     console.log("left arrow clicked");
-            //     var vueInstance = this;
-            //     let previousId = vueInstance.image.previousId;
-            //     console.log("previous id: ", previousId);
-            // },
-            //
-            // next: function() {
-            //     console.log("right arrow clicked");
-            // },
-
             handleComments: function(e) {
                 e.preventDefault();
                 console.log("button clicked");
@@ -124,6 +113,8 @@
                     .then(function(resp) {
                         console.log("resp from post/comment: ", resp);
                         vueInstance.comments.unshift(resp.data[0]);
+                        vueInstance.username = "";
+                        vueInstance.comment = "";
                     })
                     .catch(err => {
                         console.log("err in resp/upload: ", err);
@@ -168,6 +159,10 @@
                     console.log("id of last pic:", latestPicId);
                     vueInstance.images = results.data;
                     vueInstance.lastId = latestPicId;
+                    vueInstance.title = "";
+                    vueInstance.description = "";
+                    vueInstance.username = "";
+                    vueInstance.file = "";
                 })
                 .catch(function(err) {
                     console.log("err: ", err);
@@ -200,6 +195,10 @@
                     .then(function(resp) {
                         console.log("resp from post/upload: ", resp);
                         vueInstance.images.unshift(resp.data[0]);
+                        vueInstance.title = "";
+                        vueInstance.description = "";
+                        vueInstance.username = "";
+                        vueInstance.file = "";
                     })
                     .catch(err => {
                         console.log("err in resp/upload: ", err);

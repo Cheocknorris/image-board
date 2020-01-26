@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
 <head>
+    <script src="https://kit.fontawesome.com/6f27d00af3.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Slab&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/styles.css">
     <title>Image board</title>
@@ -10,8 +11,19 @@
 
 
 <header>
-    <img id="logo" src="camera.png" alt="">
-    <h1>{{heading}}</h1>
+    <div class="logo-container">
+        <img id="logo" src="album.png" alt="">
+        <h1>AMAZING ALBUM COVERS</h1>
+    </div>
+    <form>
+        <input v-model="title" name="title" placeholder="Title" type="text">
+        <input v-model="description" name="description" placeholder="Description">
+        <input v-model="username" name="username" placeholder="Unsername">
+        <input @change="handleChange" name="file" type="file" type="text" id="file" class="inputfile">
+        <label for="file">Choose file</label>
+        <button class="upload" @click="handleClick"> <i class="fas fa-upload"></i>Upload</button>
+
+    </form>
 </header>
 
 <image-component
@@ -22,25 +34,22 @@
 </image-component>
 
 
-        <form>
-            <input v-model="title" name="title" placeholder="title" type="text">
-            <input v-model="description" name="description" placeholder="description">
-            <input v-model="username" name="username" placeholder="unsername">
-            <input @change="handleChange" name="file" type="file" type="text" id="file" class="inputfile">
-            <label for="file">Choose a file</label>
-            <button @click="handleClick">submit</button>
-
-        </form>
-        <div class="line"></div>
+        <!-- <div class="line"></div> -->
         <div v-bind:class="classMainContainer">
             <div v-bind:class="classContainer" v-if="images" v-for="i in images">
-                <a :href='"#" + i.id'>
-                <img  @click="selectedImage=i.id" v-bind:class="classPicture" :src="i.url" alt="">
-                </a>
-                <p v-bind:class="classTitle">{{i.title}}</p>
+                <div class="pic-container">
+                    <a :href='"#" + i.id'>
+                        <img  @click="selectedImage=i.id" v-bind:class="classPicture" :src="i.url" alt="">
+                    </a>
+
+                </div>
+                <!-- <a :href='"#" + i.id'> -->
+                    <p v-bind:class="classTitle">{{i.title}}</p>
+                <!-- </a> -->
             </div>
-            <button v-if="lastId" @click="loadMore">More</button>
         </div>
+        <button class="more" v-if="lastId" @click="loadMore"> <i class="far fa-caret-square-down"></i> More
+        </button>
 
     </div>
 
@@ -58,70 +67,44 @@
                 <p class="selected-title">
                     {{image.title}}
                 </p>
-                <p class="selected-title">
-                    {{image.description}}
+                <p class="selected-username">
+                    Uploaded by {{image.username}}
                 </p>
-                <p class="selected-upload">
-                    Uploaded by {{image.username}} on {{image.created_at}}.
+                <p class="selected-description">
+                    {{image.description}}
                 </p>
             </div>
         </div>
     <div class="right">
-        <form>
-            <input v-model="comment" name="comment" placeholder="Comment" type="text">
-            <input v-model="username" name="username" placeholder="Username" type="text">
-            <button @click="handleComments">submit</button>
+
+        <form class="comments-form">
+            <input id="comments-input" v-model="username" name="username" placeholder="Username:" type="text">
+            <input id="comments-input" v-model="comment" name="comment" placeholder="Comment:" type="text">
+            <button class="submit-comment" @click="handleComments">Submit      <i class="far fa-comment-alt"></i> </button>
         </form>
 
         <div class="comments" v-if="comments">
-            <p v-for="c in comments">
-                username: {{c.username}}
+            <p class="comment" v-for="c in comments">
+                <span class="comment-username"></span>{{c.username}}:</span>
             <br>
-                comment: {{c.comment}}
+                {{c.comment}}
             </p>
         </div>
     </div>
-    <a :href='"#" + nextId'>
-    <img class="right-arrow" src="right-arrow.png" alt="">
-    </a>
+        <a :href='"#" + nextId'>
+            <img class="right-arrow" src="right-arrow.png" alt="">
+        </a>
 </div>
+
 </script>
 
 
 
 
-<!-- <script type="text/x-template" id="template">  -->
-    <!-- all the code needs to be wraped inside one element -->
-    <!-- <div class="component">
-        <h1 @click="closeModal"> This is my first component</h1>
-        <h2>My name is {{name}}</h2>
-        <button @click="count++">Click me</button> Count: {{count}}
 
-    </div>
-
-</script> -->
 
     <script src="/js/vue.js"></script>
     <script src="/js/axios.min.js"></script>
     <script src="/js/script.js"></script>
     </body>
 </html>
-
-    <!-- This is the element that View will use -->
-    <!-- <div id="main">
-        <h1 v-bind:class="className">{{heading}}</h1>
-        <h2>Hello {{ greetee }}</h2>
-        <a :href="url">click</a>
-        <ul v-if="candy">
-            <li v-for="c in candy" v-on:click="c.name = 'baci'">{{c.name}}</li>
-        </ul>
-        <input v-model="greetee">
-    </div>
-    <script src="/js/vue.js"></script>
-    <script src="/js/axios.min.js"></script>
-    <script src="/js/script.js"></script>
-</body>
-</html> -->
-
-<!-- @ is shortcut for v-on -->
-<!-- : is shortcut for v-bind -->
