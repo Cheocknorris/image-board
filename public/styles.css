@@ -299,7 +299,7 @@ h3 {
 }
 
 .selected-info {
-    margin-left: 30px;
+    margin-left: 35px;
 }
 
 .selected-title {
@@ -369,8 +369,10 @@ h3 {
 
 .comment {
     margin: 30px;
-    /* border: 1px solid black; */
+    border: 1px solid black;
+    border-radius: 20px;
     padding: 10px;
+    background-color: rgba(174, 182, 191, 0.8);
 }
 
 .comment-username {
